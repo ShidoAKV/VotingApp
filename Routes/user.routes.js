@@ -14,34 +14,38 @@ const checkadmin=async(role)=>{
 
 router.post('/signup', async (req, res) => {
   try {
-
     const data = req.body;
-    if(await checkadmin(data.role) && data.role==='admin'){
-      return res.status(403).json({message:"duplicate admin"});
+
+    // Check if an admin already exists
+    const adminExists = await User.findOne({ role: 'admin' });
+    if (await adminExists && data.role ==='admin') {
+       console.log('duplicate admin');
+       
+      return res.status(400).send("Admin already exist" );
     }
-    if(data.role=='admin'){
-      const check=await User.findOne({role:data.role});
-      if(check===true){
-        return res.status(403).json({message:"duplicate admin"});
-      }
+   
+    const user=await User.findOne({adhaarno:data.adhaarno});
+    if(user){
+      return res.status(400).send("User already exist" );
     }
-    const response =await User(data);  // Corrected
-    
+
+    // Create a new user
+    const response = new User(data);  
     const savedresponse = await response.save();
-    console.log("data sent successfully");
-    
-    // If you want to generate a token and send it along with the response:
-    const payload = { 
-      id: savedresponse.id 
-    };
-    
+    console.log("Data saved successfully");
+
+    // Generate a token and send it along with the response
+    const payload = { id: savedresponse.id };
     const token = generateToken(payload);
-    console.log("token was ", token);
+    console.log("Token:", token);
+
     res.status(200).json({ response: savedresponse, token: token });
   } catch (error) {
-    res.status(500).send({ message: "internal server error" });
+    console.error("Error in signup:", error);
+    res.status(500).json({ message: "internal server error" });
   }
 });
+
 
 // login route
 
@@ -69,6 +73,37 @@ router.post('/login',async(req,res)=>{
     return res.status(500).send({message:"internal server error"});
   }
 })
+
+router.post('/adminlogin',async(req,res)=>{
+  try {
+    // extract adhaarno and password from req body
+    // send adhaarno ,password by post method then it return token if all set
+     const { adhaarno,password}=req.body;
+     const user=await User.findOne({adhaarno: adhaarno});
+     if(!user||!await user.comparePassword(password)){
+         return res.status(401).json({error:"invalid username or password"})
+     }
+
+      if(user.role!=='admin'){
+        return res.status(400).send('user not admin');
+      }
+     // generate token
+     const payload={
+      id:user.id,
+     }
+     const token=generateToken(payload);
+
+     // return token as response
+
+     return res.status(200).json({token:token});
+
+  } catch (error) {
+    return res.status(500).send({message:"internal server error"});
+  }
+})
+
+
+
 router.get('/profile',async(req,res)=>{
   try { 
     //  const userdata=req.user;

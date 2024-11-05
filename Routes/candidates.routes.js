@@ -42,36 +42,52 @@ router.post('/candidatesignup', jwtAuthMiddleware, async (req, res) => {
 
 
  
-router.put('/:candidateid',jwtAuthMiddleware, async (req, res) => {
+router.put('/editcandidate', jwtAuthMiddleware, async (req, res) => {
   try {
-    // Accessing the id from jwt token (as user)
-    if(!checkadminrole(req.user.id)) {
-      return res.status(404).send({message:"user was not admin "})
-    }
-    const personid = req.params.candidateid;
-    const updatedpersondata = await Candidates.findById(personid);
+    // Accessing the id from the jwt token (assumed to be user id)
+    const {previousparty } = req.body;
+    const token = req.user?.id; // Ensure req.user and id are defined
 
-    if (!updatedpersondata) {
-      return res.status(404).json({ message: "Person not found" });
-    }
-    //  res.status(200).send(req.body);
-    const response = await Candidates.findByIdAndUpdate(personid,req.body, {
-      new: true,
-      runValidators: true,
-    });
-
-    if(!response){
-      return res.status(403).json({ message: "Person not found" });
+    // Check for admin role authorization
+    if (!checkadminrole(token)) {
+      return res.status(403).json({ message: "User is not an admin" });
     }
 
-    console.log("Data updated");
-     res.status(200).json(response);
-  } 
-  catch (error) {
+    // Find candidate by party
+    const candidate = await Candidates.findOne({ party:previousparty});
+    if (!candidate) {
+      return res.status(404).json({ message: "Candidate not found" });
+    }
+
+
+
+    // Update candidate’s details directly
+    const updatedCandidate = await Candidates.findByIdAndUpdate(
+      candidate.id,
+      {
+        name: req.body.name,
+        age: req.body.age,
+        party: req.body.party
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    if (!updatedCandidate) {
+      return res.status(404).json({ message: "Candidate update failed" });
+    }
+
+    console.log("Data updated successfully");
+    res.status(200).json(updatedCandidate);
+
+  } catch (error) {
     console.error("Error updating data", error);
     res.status(500).json({ message: "Internal server error", error });
   }
 });
+
 
 
 

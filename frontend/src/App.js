@@ -11,6 +11,7 @@ import Removevote from './Component/Removevote.js';
 import Editcandidate from './Component/Editcandidate.js';
 import Candidatelogin from './Component/Candidatelogin.js';
 
+
 function App() {
   return (
     <Router>

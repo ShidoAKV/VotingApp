@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import SignupSuccessMessage from './SignupSuccessMessage';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function Signup() {
     const navigate=useNavigate();
     const [signupinfo, setsignupinfo] = useState({
@@ -15,8 +16,7 @@ function Signup() {
         address: '',
         role:'',
     });
-    const [message, setMessage] = useState('');
-    const [success, setsuccess] = useState(false); 
+     const [success, setsuccess] = useState(false); 
 
     const handlechange = (e) => {
         const { name, value } = e.target;
@@ -31,7 +31,7 @@ function Signup() {
         const { name, adhaarno, password, email, age, mobile, address ,role} = signupinfo;
     
         if (!name || !email || !adhaarno || !password || !age || !mobile || !address||!role) {
-            setMessage("All fields are required.");
+            toast.error('All field required')
             return;
         }
         
@@ -42,17 +42,20 @@ function Signup() {
             if (response.status === 200) {
                 setsuccess(true); // Update to use `setsuccess`
                 setsignupinfo({ name: '', email: '', password: '', adhaarno: '', age: '', mobile: '', address: '',role:'' });
+                toast.success('User SignUp successfully');
             } else {
-                setMessage('Failed to create account. Try again.');
+                toast.error('User not created');
             }
         } catch (error) {
-            console.error("Error during signup:", error);
-            setMessage('Internal server error. Please try again later.');
+            toast.error(error.response.data)
+            console.error( error);
+            
         }
     };
     
     return (
         <>
+         <ToastContainer />
             <section className="bg-gray-50 dark:bg-gray-900">
                 <div className="flex flex-col items-center justify-center px-6 py-8 w-[100%] h-[100%] pb-48">
                     <Link to="Signup" className="flex items-center mb-6 text-xl font-semibold text-gray-900 dark:text-white">
@@ -64,7 +67,6 @@ function Signup() {
                             <h1 className="text-sm font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                                 Create an account
                             </h1>
-                            {success && <SignupSuccessMessage onDismiss={() => setsuccess(false)} />}
                             <form className="space-y-2 md:space-y-4" onSubmit={handlesubmit}>
                                 <div>
                                     <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>

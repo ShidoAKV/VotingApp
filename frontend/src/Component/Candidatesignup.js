@@ -58,7 +58,7 @@ function Candidatesignup() {
 
     return (
         <>
-            <section className="bg-gray-50 dark:bg-gray-900">
+            <section className="bg-gray-50 dark:bg-gray-900 w-sceen h-screen">
                 <div className="flex flex-col items-center justify-center px-6 py-8 w-[100%] h-[100%] pb-48">
                     <Link to="Signup" className="flex items-center mb-6 text-xl font-semibold text-gray-900 dark:text-white">
                         <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo" />
@@ -66,8 +66,8 @@ function Candidatesignup() {
                     </Link>
                     <div className="w-[35%] bg-white rounded-lg shadow dark:border dark:bg-gray-800 dark:border-gray-700">
                         <div className="space-y-4 md:space-y-6 sm:p-8 h-[30%]">
-                            <h1 className="text-sm font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                                Create an account
+                            <h1 className="text-center text-sm font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                                Create an Party Account
                             </h1>
                             {success && <SignupSuccessMessage onDismiss={() => setsuccess(false)} />}
                             <form className="space-y-2 md:space-y-4" onSubmit={handlesubmit}>
@@ -90,6 +90,7 @@ function Candidatesignup() {
                     </div>
                 </div>
             </section>
+
         </>
     );
 }
