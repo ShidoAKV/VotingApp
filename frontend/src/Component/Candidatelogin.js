@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import SignupSuccessMessage from './SignupSuccessMessage';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Candidatelogin() {
     const navigate = useNavigate();
@@ -31,33 +33,34 @@ function Candidatelogin() {
         }
 
         // Retrieve JWT token from local storage (or another storage method)
-        const token ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6IjY3MjRiYTA1ZWVkM2JiZjg4Y2VjMGVlYSJ9LCJpYXQiOjE3MzA0NjA2ODgsImV4cCI6MTc0ODQ2MDY4OH0.03QcVYQEPTV0IPPaKyDhl5tl_mVqcQmUMn2psyeV2AM';
+        // const token ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6IjY3MjRiYTA1ZWVkM2JiZjg4Y2VjMGVlYSJ9LCJpYXQiOjE3MzA0NjA2ODgsImV4cCI6MTc0ODQ2MDY4OH0.03QcVYQEPTV0IPPaKyDhl5tl_mVqcQmUMn2psyeV2AM';
 
         try {
             const response = await axios.post(
-                'http://localhost:7000/candidate/candidatesignup',
+                'http://localhost:7000/candidate/candidatelogin',
                 { name, party, age },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,  // Attach JWT in Authorization header
-                    }
-                }
             );
 
             if (response.status === 200) {
                 setsuccess(true);
                 setsignupinfo({ name: '', party: '', age: '' });
-            } else {
-                setMessage('Failed to create account. Try again.');
+                setMessage('Candidate login successfully')
+                toast.success('Candidate login successfully')
+            }else{
+                setMessage('Wrong Credential')
+                toast.warn('login Unsuccessfull')
+
             }
         } catch (error) {
-            console.error("Error during signup:", error);
-            setMessage('Internal server error. Please try again later.');
+            // console.error("Error during signup:", error);
+            setMessage(error.response.data);
+            toast.error(error.response.data.message)
         }
     };
 
     return (
         <>
+        <ToastContainer/>
             <section className="bg-gray-50 dark:bg-gray-900 w-screen h-screen">
                 <div className="flex flex-col items-center justify-center px-6 py-8 w-[100%] h-[100%] pb-48">
                     <Link to="/candidatelogin" className="flex items-center mb-6 text-xl font-semibold text-gray-900 dark:text-white">
@@ -70,6 +73,7 @@ function Candidatelogin() {
                               Login
                             </h1>
                             {success && <SignupSuccessMessage onDismiss={() => setsuccess(false)} />}
+                            {<p className={`text-center text-${message==='Candidate login successfully'?'green':'red'}-500`}>{message}</p>}
                             <form className="space-y-2 md:space-y-4" onSubmit={handlesubmit}>
                                 <div>
                                     <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>

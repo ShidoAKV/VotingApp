@@ -70,7 +70,7 @@ router.post('/login',async(req,res)=>{
      return res.status(200).json({token:token});
 
   } catch (error) {
-    return res.status(500).send({message:"internal server error"});
+    return res.status(500).send({message:" Incorrect Credential"});
   }
 })
 
@@ -101,6 +101,20 @@ router.post('/adminlogin',async(req,res)=>{
     return res.status(500).send({message:"internal server error"});
   }
 })
+
+router.get('/admincheck', async (req, res) => {
+  try {
+      const response = await User.findOne({ role: 'admin' });
+
+      if (!response) {
+          return res.status(200).send('Admin not present');
+      }
+      return res.status(200).json(response);
+  } catch (error) {
+      console.error("Error checking admin presence:", error);
+      return res.status(500).send('Internal server error');
+  }
+});
 
 
 

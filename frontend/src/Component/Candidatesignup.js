@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import SignupSuccessMessage from './SignupSuccessMessage';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Candidatesignup() {
     const navigate = useNavigate();
     const [signupinfo, setsignupinfo] = useState({
         name: '',
         party: '',
-        age: '',
+        age: ''
     });
     const [message, setMessage] = useState('');
     const [success, setsuccess] = useState(false);
@@ -30,34 +32,29 @@ function Candidatesignup() {
             return;
         }
 
-        // Retrieve JWT token from local storage (or another storage method)
-        const token ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6IjY3MjRiYTA1ZWVkM2JiZjg4Y2VjMGVlYSJ9LCJpYXQiOjE3MzA0NjA2ODgsImV4cCI6MTc0ODQ2MDY4OH0.03QcVYQEPTV0IPPaKyDhl5tl_mVqcQmUMn2psyeV2AM';
-
         try {
-            const response = await axios.post(
-                'http://localhost:7000/candidate/candidatesignup',
-                { name, party, age },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,  // Attach JWT in Authorization header
-                    }
-                }
-            );
+                const response = await axios.post(
+                    'http://localhost:7000/candidate/candidatesignup',
+                    { name, party, age }
+                );
 
-            if (response.status === 200) {
-                setsuccess(true);
-                setsignupinfo({ name: '', party: '', age: '' });
-            } else {
-                setMessage('Failed to create account. Try again.');
-            }
+                if (response.status === 200) {
+                    setsuccess(true);
+                    setsignupinfo({ name: '', party: '', age: '' });
+                    setMessage('Signup successful!');
+                    toast.success('candidate sign up successfully');
+                } 
         } catch (error) {
-            console.error("Error during signup:", error);
+            // console.error("Error during signup:", error);
             setMessage('Internal server error. Please try again later.');
+            setMessage(error.response.data)
+            toast.error(error.response.data)
         }
     };
 
     return (
         <>
+        <ToastContainer/>
             <section className="bg-gray-50 dark:bg-gray-900 w-sceen h-screen">
                 <div className="flex flex-col items-center justify-center px-6 py-8 w-[100%] h-[100%] pb-48">
                     <Link to="Signup" className="flex items-center mb-6 text-xl font-semibold text-gray-900 dark:text-white">
@@ -70,6 +67,7 @@ function Candidatesignup() {
                                 Create an Party Account
                             </h1>
                             {success && <SignupSuccessMessage onDismiss={() => setsuccess(false)} />}
+                            {<p className={`text-center text-${message==='Signup successful!'?'green':'red'}-500`}>{message}</p>}
                             <form className="space-y-2 md:space-y-4" onSubmit={handlesubmit}>
                                 <div>
                                     <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
@@ -90,7 +88,6 @@ function Candidatesignup() {
                     </div>
                 </div>
             </section>
-
         </>
     );
 }

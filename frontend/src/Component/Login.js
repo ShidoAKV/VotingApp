@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import SuccessMessage from './SuccessMessage';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Login() {
     const [logininfo, setlogininfo] = useState({ adhaarno: '', password: '' });
@@ -21,21 +23,22 @@ function Login() {
 
         try {
             const response = await axios.post('http://localhost:7000/user/login', { adhaarno, password });
-              
+
             if (response.status === 200) {
                 console.log(response);
                 setLoginSuccess(true); // Show success message
                 setlogininfo({ adhaarno: '', password: '' });
-            } else {
-                alert('Login unsuccessful');
-            }
+                toast.success('Login Successfully')
+            } 
         } catch (error) {
-            console.log('Error during login:', error);
+            // console.log('Error during login:', error);
+            toast.error(error.response.data.message);
         }
     };
 
     return (
         <>
+        <ToastContainer/>
             <section className="bg-gray-50 dark:bg-gray-900  w-screen h-screen">
                 <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 ">
                     <Link to="Login" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">

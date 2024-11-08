@@ -90,7 +90,6 @@ function Votecandidate() {
                             Vote for party
                         </h1>
                         {message && <p className="text-red-500">{message}</p>}
-                        {success && <SignupSuccessMessage onDismiss={() => setsuccess(false)} />}
                         <form className="space-y-2 md:space-y-4" onSubmit={handlesubmit}>
                             <div>
                                 <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>

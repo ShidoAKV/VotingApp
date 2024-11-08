@@ -18,26 +18,46 @@ const checkadminrole=async(userid)=>{
     }
 }
 
-router.post('/candidatesignup', jwtAuthMiddleware, async (req, res) => {
+
+router.post('/candidatesignup', async (req, res) => {
   try {
-    // req.user contains the user data from the JWT token
-    // console.log(!await checkadminrole(req.user.id));
-    
-    if (await checkadminrole(req.user.id)) {
-      return res.status(404).send({ message: "user is not an admin" });
+    const { name, party, age } = req.body;
+
+    // Check if candidate already exists by name and party
+    const candidatePresentInDb = await Candidates.findOne({ name, party });
+    if (candidatePresentInDb) {
+      return res.status(400).send('Candidate already exists');
     }
 
-    const data = req.body; // Candidate data
-    const response = new Candidates(data);
-    const savedResponse = await response.save();
-    console.log("data saved successfully in candidate ");
-    
-    res.status(200).json({ response: savedResponse });
+    // Check if the user has an admin role
+    const user = await User.findOne({ name });
+    if (user && user.role === 'admin') {
+      return res.status(403).send({ message: "Admins are not allowed to sign up as candidates." });
+    }
+
+    // Create and save new candidate
+    const newCandidate = new Candidates({ name, party, age });
+    const savedCandidate = await newCandidate.save();
+
+    res.status(200).json({ response: savedCandidate });
   } catch (error) {
     console.error("Error saving data", error);
-    res.status(500).send({ message: "internal server error" });
+    res.status(500).send({ message: "Internal server error" });
   }
 });
+
+
+router.post('/candidatelogin',async(req,res)=>{
+    const {name,party,age}=req.body;
+    
+    const response=await Candidates.findOne({name,party,age});
+    if(!response){
+      return res.status(203).send('Candidate not exist');
+    }
+
+    return res.status(200).send('candidate login successfully!');
+     
+})
 
 
 
