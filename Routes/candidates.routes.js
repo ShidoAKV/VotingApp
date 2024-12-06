@@ -259,6 +259,30 @@ router.get('/vote/count', async (req, res) => {
 });
 
 
+router.get('/candidateprofile',async(req,res)=>{
+  try { 
+     const {partyName,password}=req.query;
+       console.log({partyName,password});
+    
+    if(!partyName){
+      return res.status(401).send('Please enter the credentials')
+    }
+    const candidateinfo=await Candidates.findOne({party:partyName})
+     if(!candidateinfo){
+      return res.status(401).send({sucess:'false',message:'No user exist'})
+     }
+
+      //  console.log(userdata);
+ 
+     return res.status(200).send(candidateinfo);
+  } catch (error) {
+    return res.status(500).send({message:"internal server error"});
+  }
+}) 
+
+
+
+
 
 
 
