@@ -13,19 +13,6 @@ const Profile = () => {
     password: '',
   });
   const [token, setToken] = useState('');
-  const [profileImage, setProfileImage] = useState(null);
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setProfileImage(reader.result); // Set the base64 image string
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
 
   const handlevoterloginChange = (e) => {
     const { name, value } = e.target;
@@ -65,17 +52,13 @@ const Profile = () => {
       {success ? (
         <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900">
           <div className="max-w-sm bg-gray-900 border border-gray-300 rounded-lg shadow-xl p-6 transform transition duration-300 hover:scale-105 hover:shadow-xl shadow-gray-600">
-            <div>
             <div className="flex justify-center mb-4">
               <img
                 className="w-24 h-24 rounded-full object-cover border-4 border-blue-500"
-                src={profileImage || "https://via.placeholder.com/150"}
+               src="https://via.placeholder.com/150"
                 alt="Profile"
               />
             </div>
-
-            </div>
-            
             <div className="text-white flex flex-col ml-16  font-semibold space-y-2">
               <h1 className="text-2xl pl-20 font-bold text-blue-500">{voterdata.name}</h1>
               <p className="text-gray-200"><strong className='text-gray-500 font-bold mr-2'>Email</strong>: {voterdata.email}</p>
