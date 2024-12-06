@@ -3,9 +3,9 @@ import User from '../Models/user.js';
 import {jwtAuthMiddleware,generateToken} from '../jwt.js';
 const router = express.Router();
 
-// router.get('/testing',async(req,res)=>{
-//      res.status(200).json("successfully executed")
-// })
+router.get('/testing',async(req,res)=>{
+    return res.status(200).send("successfully executed")
+})
 
 const checkadmin=async(role)=>{
   const check=await User.findOne({role:role});
@@ -117,19 +117,26 @@ router.get('/admincheck', async (req, res) => {
 });
 
 
-
 router.get('/profile',async(req,res)=>{
   try { 
-    //  const userdata=req.user;
-    //  const userId=userdata.id;
+     const {adhaarNo,password}=req.query;
+      // console.log({adhaarNo,password});
+    
+    if(!adhaarNo){
+      return res.status(401).send('Please enter the credentials')
+    }
+    const userdata=await User.findOne({adhaarno:adhaarNo})
+     if(!userdata){
+      return res.status(401).send({sucess:'false',message:'No user exist'})
+     }
 
-     const user=await User.find();
-     res.status(200).send("working fine");
+      //  console.log(userdata);
+ 
+     return res.status(200).send(userdata);
   } catch (error) {
     return res.status(500).send({message:"internal server error"});
   }
-})
-
+}) 
 
 
  

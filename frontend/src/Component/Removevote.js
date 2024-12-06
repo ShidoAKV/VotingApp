@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import { useNavigate,Link } from 'react-router-dom';
 
 function Removevote() {
+    const navigate=useNavigate();
     const [signupinfo, setsignupinfo] = useState({
         name: '',
         adhaarno: '',
@@ -53,8 +55,13 @@ function Removevote() {
     };
 
     return (
-        <section className="bg-gray-50 dark:bg-gray-900 h-screen w-screen flex items-center justify-center">
-            <ToastContainer />
+        <>
+         <ToastContainer />
+        <section className="bg-gray-50 dark:bg-gray-900 h-screen w-screen flex  flex-col items-center justify-center align-middle">
+        <Link to="Signup" className="flex items-center mb-6 text-xl font-semibold text-gray-900 dark:text-white">
+                    <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo" />
+                    Edit Vote 
+            </Link>
             <div className="w-1/3 bg-white rounded-lg shadow dark:border dark:bg-gray-800 dark:border-gray-700 p-6">
                 <h1 className="text-lg font-bold text-gray-900 dark:text-white mb-4 text-center">
                    Edit your Vote
@@ -104,13 +111,14 @@ function Removevote() {
                     </div>
                     <button
                         type="submit"
-                        className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                        className="w-full text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                     >
                         Submit
                     </button>
                 </form>
             </div>
         </section>
+        </>
     );
 }
 

@@ -5,7 +5,7 @@ import SuccessMessage from './SuccessMessage';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-function Login() {
+function Logout() {
     const [logininfo, setlogininfo] = useState({ adhaarno: '', password: '' });
     const [loginSuccess, setLoginSuccess] = useState(false); 
 
@@ -29,6 +29,9 @@ function Login() {
                 setLoginSuccess(true); // Show success message
                 setlogininfo({ adhaarno: '', password: '' });
                 toast.success('Login Successfully')
+
+
+                
             } 
         } catch (error) {
             // console.log('Error during login:', error);
@@ -78,7 +81,7 @@ function Login() {
                                         required
                                     />
                                 </div>
-                                <button type="submit" className="w-full text-white bg-blue-700 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</button>
+                                <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</button>
                             </form>
                         </div>
                     </div>
@@ -88,4 +91,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default Logout;

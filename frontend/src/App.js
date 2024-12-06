@@ -10,9 +10,19 @@ import MainMenu from './Component/MainMenu.js';
 import Removevote from './Component/Removevote.js';
 import Editcandidate from './Component/Editcandidate.js';
 import Candidatelogin from './Component/Candidatelogin.js';
+import Logout from './Component/Logout.js';
+import Profile from './Component/Profile.js';
 
 
 function App() {
+  const voterData = {
+    name: 'Abhishek Kumar',
+    aadhaar: '1234-5678-9123',
+    age: 25,
+    address: '123 Main Street, New Delhi, India',
+    image: 'https://via.placeholder.com/150', // Replace with actual URL
+  };
+
   return (
     <Router>
       <Routes>
@@ -25,6 +35,8 @@ function App() {
         <Route  path="/editvote" element={<Removevote/>} />
         <Route  path="/editcandidate" element={<Editcandidate/>} />
         <Route  path="/logincandidate" element={<Candidatelogin/>} />
+        <Route  path="/logout" element={<Logout/>} />
+        <Route  path="/profile" element={<Profile />} />
         {/* <Route  path="/login/signup" element={<Login />} /> */}
       </Routes>
     </Router>

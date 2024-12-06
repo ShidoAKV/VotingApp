@@ -187,12 +187,14 @@ router.post('/editvote', async (req, res) => {
       if (!name || !adhaarno || !party) {
           return res.status(400).send('Name, Adhaar number, and party are required.');
       }
+      
 
       // Find the user by Adhaar number
       const user = await User.findOne({ adhaarno: adhaarno });
       if (!user) {
           return res.status(400).send('User not found');
       }
+      
       if(user.isvoted==false){
         return   res.status(400).send('User not voted yet');
       }
@@ -255,6 +257,9 @@ router.get('/vote/count', async (req, res) => {
     res.status(500).json({ message: "Internal server error", error });
   }
 });
+
+
+
 
 
 
