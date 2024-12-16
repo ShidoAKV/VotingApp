@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState,useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import SuccessMessage from './SuccessMessage';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function Login() {
+     const navigate=useNavigate();
     const [logininfo, setlogininfo] = useState({ adhaarno: '', password: '' });
     const [loginSuccess, setLoginSuccess] = useState(false); 
+    localStorage.setItem('loginSuccess',loginSuccess);
+
+    useEffect(() => {
+        localStorage.setItem('loginSuccess', loginSuccess);
+    }, [loginSuccess]);
+
 
     const handlechange = (e) => {
         const { name, value } = e.target;
@@ -29,6 +36,9 @@ function Login() {
                 setLoginSuccess(true); // Show success message
                 setlogininfo({ adhaarno: '', password: '' });
                 toast.success('Login Successfully')
+                setTimeout(() => {
+                    navigate('/')
+                }, 2000);
             } 
         } catch (error) {
             // console.log('Error during login:', error);

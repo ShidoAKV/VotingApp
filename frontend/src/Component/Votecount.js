@@ -13,7 +13,7 @@ function Votecount() {
                 console.log('Internal server error');
                 return;
             }
-         console.log(response.data);
+            console.log(response.data);
 
             setsuccess(true);
             setpartycount(response.data); // Set partycount to response.data

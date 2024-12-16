@@ -265,11 +265,11 @@ router.get('/candidateprofile',async(req,res)=>{
        console.log({partyName,password});
     
     if(!partyName){
-      return res.status(401).send('Please enter the credentials')
+      return res.status(402).send('Please enter the credentials')
     }
     const candidateinfo=await Candidates.findOne({party:partyName})
      if(!candidateinfo){
-      return res.status(401).send({sucess:'false',message:'No user exist'})
+      return res.status(401).send({sucess:'false',message:'No candidate exist'})
      }
 
       //  console.log(userdata);

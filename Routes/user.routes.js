@@ -121,14 +121,23 @@ router.get('/profile',async(req,res)=>{
   try { 
      const {adhaarNo,password}=req.query;
       // console.log({adhaarNo,password});
-    
-    if(!adhaarNo){
-      return res.status(401).send('Please enter the credentials')
-    }
-    const userdata=await User.findOne({adhaarno:adhaarNo})
-     if(!userdata){
-      return res.status(401).send({sucess:'false',message:'No user exist'})
+      if(!adhaarNo||!password){
+        return res.status(401).send('Enter credentials ')
+      }
+      
+    const userdata=await User.findOne({adhaarno:adhaarNo});
+    if(!userdata){
+      return res.status(401).send('Incorrect Adhaar No')
      }
+    const user_password_check=await userdata.comparePassword(password);
+     if(!user_password_check){
+      return res.status(401).send('Incorrect password')
+     }
+     console.log(userdata.adhaarno);
+     
+    //  if(userdata.adhaarno!==adhaarNo){
+    //   return res.status(401).send('Incorrect Adhaar No')
+    //  }
 
       //  console.log(userdata);
  

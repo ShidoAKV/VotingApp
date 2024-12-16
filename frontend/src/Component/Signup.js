@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import SignupSuccessMessage from './SignupSuccessMessage';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Votecandidate from './Votecandidate';
+import { Appcontext } from '../Context/Context';
+
 function Signup() {
     const navigate=useNavigate();
     const [signupinfo, setsignupinfo] = useState({
@@ -17,7 +19,9 @@ function Signup() {
         address: '',
         role:'',
     });
+    
      const [success, setsuccess] = useState(false); 
+     const {signupSuccess,setsignupSuccess,loginSuccess, setLoginSuccess}=useContext(Appcontext);
 
     const handlechange = (e) => {
         const { name, value } = e.target;
@@ -42,10 +46,12 @@ function Signup() {
             });
             if (response.status === 200) {
                 setsuccess(true); // Update to use `setsuccess`
+                setsignupSuccess(true);
+                setLoginSuccess(true);
                 setsignupinfo({ name: '', email: '', password: '', adhaarno: '', age: '', mobile: '', address: '',role:'' });
                 toast.success('User SignUp successfully');
                 setTimeout(() => {
-                    navigate('/vote')
+                    navigate('/')
                 }, 3000);
                
             } else {
@@ -61,7 +67,6 @@ function Signup() {
     return (
         <>
         <ToastContainer />
-        
             <section className="bg-gray-50 dark:bg-gray-900">
             <div className="flex flex-col items-center justify-center px-6 py-8 w-[100%] h-[100%] pb-48">
                 <Link to="Signup" className="flex items-center mb-6 text-xl font-semibold text-gray-900 dark:text-white">
@@ -122,11 +127,13 @@ function Signup() {
                 </div>
             </div>
         </section>
-            
 
-           
         </>
     );
 }
 
 export default Signup;
+
+
+
+
