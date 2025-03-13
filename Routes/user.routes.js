@@ -2,10 +2,12 @@ import express from 'express';
 import User from '../Models/user.js';
 import {jwtAuthMiddleware,generateToken} from '../jwt.js';
 const router = express.Router();
+import { upload } from '../Middleware/multer.js';
+import { v2 as cloudinary } from 'cloudinary';
 
-router.get('/testing',async(req,res)=>{
-    return res.status(200).send("successfully executed")
-})
+// router.get('/testing',async(req,res)=>{
+//     return res.status(200).send("successfully executed")
+// })
 
 const checkadmin=async(role)=>{
   const check=await User.findOne({role:role});
@@ -45,6 +47,7 @@ router.post('/signup', async (req, res) => {
     res.status(500).json({ message: "internal server error" });
   }
 });
+
 
 
 // login route
@@ -133,7 +136,7 @@ router.get('/profile',async(req,res)=>{
      if(!user_password_check){
       return res.status(401).send('Incorrect password')
      }
-     console.log(userdata.adhaarno);
+    //  console.log(userdata.adhaarno);
      
     //  if(userdata.adhaarno!==adhaarNo){
     //   return res.status(401).send('Incorrect Adhaar No')
@@ -141,11 +144,49 @@ router.get('/profile',async(req,res)=>{
 
       //  console.log(userdata);
  
-     return res.status(200).send(userdata);
+     return res.status(200).send({success:true,userdata});
   } catch (error) {
     return res.status(500).send({message:"internal server error"});
   }
 }) 
+
+router.post('/upload',upload.single('image'),async(req,res)=>{
+  try { 
+    const image=req.file;
+    const {id}=req.body;
+   
+    console.log(id);
+    
+    if(!image){
+      return res.status(400).json('Please Upload image');
+    }
+    
+    const imageUpload = await cloudinary.uploader.upload(image.path, {
+      resource_type: 'image',
+    });
+  
+    const imageURL = imageUpload.secure_url;
+    
+    if(!imageURL){
+      return res.status(400).json('Image not uploaded');
+    }
+    //  console.log(imageURL);
+    
+      
+ 
+    const response=await User.findByIdAndUpdate(id,{image:imageURL});
+    
+    if(!response){
+      return  res.status(400).json({success:false,message:'Database error'});
+    }
+    
+    return res.status(200).json({success:true,imageurl:imageURL});
+    
+  } catch (error) {
+    return res.status(401).json('internal server error');
+  }  
+})
+
 
 
  

@@ -30,7 +30,7 @@ function Removevote() {
         }
 
         try {
-            const response = await axios.post('http://localhost:7000/candidate/editvote', { name, adhaarno ,party });
+            const response = await axios.post('http://localhost:7001/candidate/editvote', { name, adhaarno ,party });
             if (response.status === 200) {
                 toast.success('Vote removed successfully');
                 setsignupinfo({

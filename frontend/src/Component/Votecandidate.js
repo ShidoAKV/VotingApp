@@ -35,7 +35,7 @@ function Votecandidate() {
 
         try {
             // Authenticate user to get token
-            const userinfo = await axios.post('http://localhost:7000/user/login', { name, password, adhaarno });
+            const userinfo = await axios.post('http://localhost:7001/user/login', { name, password, adhaarno });
             if (!userinfo) {
                 toast.error(".");
                 return;
@@ -45,7 +45,7 @@ function Votecandidate() {
             // toast.success('token retrieved successfully')
             // Send vote request with token
             const response = await axios.post(
-                `http://localhost:7000/candidate/vote/${party}`,
+                `http://localhost:7001/candidate/vote/${party}`,
                 { name, party },
                 { headers: { Authorization: `Bearer ${token}` } }
             );

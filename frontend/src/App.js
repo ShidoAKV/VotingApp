@@ -11,12 +11,13 @@ import Editcandidate from './Component/Editcandidate.js';
 import Candidatelogin from './Component/Candidatelogin.js';
 import Logout from './Component/Logout.js';
 import CandidateProfile from './Component/CandidateProfile.js';
+import { useContext } from 'react';
+import { Appcontext } from './Context/Context.js';
 
 
 
 function App() {
-  
-
+   
   return (
     <Router>
       <Routes>

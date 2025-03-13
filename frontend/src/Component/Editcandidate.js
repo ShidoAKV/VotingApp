@@ -50,7 +50,7 @@ function Editcandidate() {
 
         try {
             const response = await axios.put(
-                `http://localhost:7000/candidate/editcandidate`,
+                `http://localhost:7001/candidate/editcandidate`,
                 { name, party, age ,previousparty},
                 {
                     headers: {
@@ -77,7 +77,7 @@ function Editcandidate() {
         const { adhaarno, password } = Adminlogin;
 
         try {
-            const response = await axios.post('http://localhost:7000/user/adminlogin', { adhaarno, password });
+            const response = await axios.post('http://localhost:7001/user/adminlogin', { adhaarno, password });
 
             if (response.status === 200) {
                 setloginSuccess(true);

@@ -8,7 +8,7 @@ function Votecount() {
 
     const handlechange = async () => {
         try {
-            const response = await axios.get('http://localhost:7000/candidate/vote/count');
+            const response = await axios.get('http://localhost:7001/candidate/vote/count');
             if (!response || !response.data) {
                 console.log('Internal server error');
                 return;

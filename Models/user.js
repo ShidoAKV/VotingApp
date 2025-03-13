@@ -38,11 +38,16 @@ const UserSchema = new mongoose.Schema(
     isvoted:{
         type:Boolean,
         default:false
+    },
+    image:{
+      type:String
     }
+    
 
   },
   { timestamps: true }  
 );
+
 UserSchema.pre('save',async function(next){
   const user=this;
   // this store the new password entered by user

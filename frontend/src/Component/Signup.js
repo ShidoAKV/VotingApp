@@ -41,7 +41,7 @@ function Signup() {
         }
         
         try {
-            const response = await axios.post('http://localhost:7000/user/signup', {
+            const response = await axios.post('http://localhost:7001/user/signup', {
                 name, email, password, adhaarno, age, mobile, address,role
             });
             if (response.status === 200) {

@@ -29,7 +29,7 @@ function Login() {
         const { adhaarno, password } = logininfo;
 
         try {
-            const response = await axios.post('http://localhost:7000/user/login', { adhaarno, password });
+            const response = await axios.post('http://localhost:7001/user/login', { adhaarno, password });
 
             if (response.status === 200) {
                 console.log(response);

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import SuccessMessage from './SuccessMessage';
 import { ToastContainer, toast } from 'react-toastify';
@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 function Logout() {
     const [logininfo, setlogininfo] = useState({ adhaarno: '', password: '' });
     const [loginSuccess, setLoginSuccess] = useState(false); 
+    const navigate=useNavigate();
 
     const handlechange = (e) => {
         const { name, value } = e.target;
@@ -22,13 +23,16 @@ function Logout() {
         const { adhaarno, password } = logininfo;
 
         try {
-            const response = await axios.post('http://localhost:7000/user/login', { adhaarno, password });
+            const response = await axios.post('http://localhost:7001/user/login', { adhaarno, password });
 
             if (response.status === 200) {
                 console.log(response);
                 setLoginSuccess(true); // Show success message
                 setlogininfo({ adhaarno: '', password: '' });
                 toast.success('Login Successfully')
+                setTimeout(() => {
+                    navigate('/');
+                }, 2000);
 
 
                 
