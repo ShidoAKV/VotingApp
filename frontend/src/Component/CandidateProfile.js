@@ -148,16 +148,16 @@ const CandidateProfile = () => {
           </div>
         ) : (
           <div className="flex items-center justify-center min-h-screen">
-            <form className="bg-white p-6 rounded-lg shadow-md space-y-6" onSubmit={handleCandidateSubmit}>
-              <h1 className="text-2xl font-bold">Candidate Login</h1>
+            <form className=" p-6 rounded-lg shadow-md space-y-6 bg-slate-700" onSubmit={handleCandidateSubmit}>
+              <h1 className="text-2xl font-bold text-slate-200">Candidate Login</h1>
               <input type="text" name="partyName" value={candidateLogin.partyName} onChange={handleCandidateLoginChange} placeholder="Party Name" className="border p-2 w-full" required />
               <input type="password" name="password" value={candidateLogin.password} onChange={handleCandidateLoginChange} placeholder="Password" className="border p-2 w-full" required />
-              <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-lg w-full">Login</button>
+              <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-lg w-full hover:bg-blue-600">Login</button>
             </form>
           </div>
         )
       ) : voterSuccess ? (
-        <div className="flex items-center justify-center min-h-screen">
+        <div className="flex items-center justify-center min-h-screen ">
           <div className="bg-gray-900 border rounded-lg shadow-xl p-6 w-96 border-blue-600">
             <div className='flex items-center gap-5'>
               <img className="h-28 w-28 border-2 border-green-400" src={(voterData.userdata.image||image )? (voterData.userdata.image||URL.createObjectURL(image)) : null} alt="Profile Pic" />
@@ -178,11 +178,11 @@ const CandidateProfile = () => {
         </div>
       ) : (
         <div className="flex items-center justify-center min-h-screen">
-          <form className="bg-white p-6 rounded-lg shadow-md space-y-6" onSubmit={handleVoterSubmit}>
-            <h1 className="text-2xl font-bold">User Login</h1>
+          <form className=" p-6 rounded-lg shadow-md space-y-6 bg-slate-700" onSubmit={handleVoterSubmit}>
+            <h1 className="text-2xl font-bold text-slate-300">User Login</h1>
             <input type="text" name="adhaarNo" value={voterLogin.adhaarNo} onChange={handleVoterLoginChange} placeholder="Aadhaar No" className="border p-2 w-full" required />
             <input type="password" name="password" value={voterLogin.password} onChange={handleVoterLoginChange} placeholder="Password" className="border p-2 w-full" required />
-            <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-lg w-full">Login</button>
+            <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-lg w-full hover:bg-blue-600">Login</button>
           </form>
         </div>
       )}

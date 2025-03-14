@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import SignupSuccessMessage from './SignupSuccessMessage';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Appcontext } from '../Context/Context';
 
 function Candidatelogin() {
     const navigate = useNavigate();
+    const {backend}=useContext(Appcontext);
+
     const [signupinfo, setsignupinfo] = useState({
         name: '',
         party: '',
@@ -14,6 +17,7 @@ function Candidatelogin() {
     });
     const [message, setMessage] = useState('');
     const [success, setsuccess] = useState(false);
+
 
     const handlechange = (e) => {
         const { name, value } = e.target;
@@ -36,8 +40,7 @@ function Candidatelogin() {
         // const token ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6IjY3MjRiYTA1ZWVkM2JiZjg4Y2VjMGVlYSJ9LCJpYXQiOjE3MzA0NjA2ODgsImV4cCI6MTc0ODQ2MDY4OH0.03QcVYQEPTV0IPPaKyDhl5tl_mVqcQmUMn2psyeV2AM';
 
         try {
-            const response = await axios.post(
-                'http://localhost:7001/candidate/candidatelogin',
+            const response = await axios.post(backend+'/candidate/candidatelogin',
                 { name, party, age },
             );
 

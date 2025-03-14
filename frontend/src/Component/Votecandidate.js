@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import SignupSuccessMessage from './SignupSuccessMessage';
+// import SignupSuccessMessage from './SignupSuccessMessage';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Appcontext } from '../Context/Context';
@@ -15,7 +15,8 @@ function Votecandidate() {
     });
     const [message, setMessage] = useState('');
     const [success, setsuccess] = useState(false);
-    
+    const navigate=useNavigate();
+
     const {backend}=useContext(Appcontext);
 
     const handlechange = (e) => {
@@ -60,6 +61,9 @@ function Votecandidate() {
                 setsignupinfo({ name: '', party: '', password: '', adhaarno: '' }); 
                 setMessage('');
                 toast.success("Vote submitted successfully!");
+                setTimeout(() => {
+                    navigate('/')
+                }, 2000);
             } 
             else {
                 setMessage('Failed to vote. Try again.');
