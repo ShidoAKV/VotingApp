@@ -37,7 +37,7 @@ function Candidatelogin() {
 
         try {
             const response = await axios.post(
-                'http://localhost:7000/candidate/candidatelogin',
+                'http://localhost:7001/candidate/candidatelogin',
                 { name, party, age },
             );
 

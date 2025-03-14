@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
+import { Appcontext } from '../Context/Context';
 
 const CandidateProfile = () => {
   // User login state
+  const {backend}=useContext(Appcontext);;
+
   const [voterData, setVoterData] = useState(null);
   const [voterSuccess, setVoterSuccess] = useState(false);
   const [image, setImage] = useState(null);
@@ -55,7 +58,7 @@ const CandidateProfile = () => {
        if(voterData.userdata._id) formdata.append('id',voterData.userdata._id);
        if(image) formdata.append('image', image); 
       
-        const { data } = await axios.post('http://localhost:7001/user/upload', formdata,
+        const { data } = await axios.post(backend+'/user/upload', formdata,
           {
             headers: {
               'Content-Type': 'multipart/form-data', 
@@ -92,7 +95,7 @@ const CandidateProfile = () => {
         toast.error('Enter a valid 12-digit Aadhaar Number');
         return;
       }
-      const {data} = await axios.get('http://localhost:7001/user/profile', { params: { adhaarNo, password } });
+      const {data} = await axios.get(backend+'/user/profile', { params: { adhaarNo, password } });
       if(data.success){
         setVoterSuccess(true);
         setVoterData(data);
@@ -112,7 +115,7 @@ const CandidateProfile = () => {
     e.preventDefault();
     try {
       const { partyName, password } = candidateLogin;
-      const response = await axios.get('http://localhost:7001/candidate/candidateprofile', { params: { partyName, password } });
+      const response = await axios.get(backend+'/candidate/candidateprofile', { params: { partyName, password } });
       setCandidateSuccess(true);
       setCandidateData(response.data);
 

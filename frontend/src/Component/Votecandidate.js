@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import SignupSuccessMessage from './SignupSuccessMessage';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Appcontext } from '../Context/Context';
 
 function Votecandidate() {
     const [signupinfo, setsignupinfo] = useState({
@@ -14,6 +15,8 @@ function Votecandidate() {
     });
     const [message, setMessage] = useState('');
     const [success, setsuccess] = useState(false);
+    
+    const {backend}=useContext(Appcontext);
 
     const handlechange = (e) => {
         const { name, value } = e.target;
@@ -35,7 +38,7 @@ function Votecandidate() {
 
         try {
             // Authenticate user to get token
-            const userinfo = await axios.post('http://localhost:7001/user/login', { name, password, adhaarno });
+            const userinfo = await axios.post(backend+'/user/login', { name, password, adhaarno });
             if (!userinfo) {
                 toast.error(".");
                 return;
@@ -44,8 +47,7 @@ function Votecandidate() {
             const token = userinfo.data.token;
             // toast.success('token retrieved successfully')
             // Send vote request with token
-            const response = await axios.post(
-                `http://localhost:7001/candidate/vote/${party}`,
+            const response = await axios.post(backend+`/candidate/vote/${party}`,
                 { name, party },
                 { headers: { Authorization: `Bearer ${token}` } }
             );

@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import SignupSuccessMessage from './SignupSuccessMessage';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Appcontext } from '../Context/Context';
 
 function Candidatesignup() {
     const navigate = useNavigate();
+    const {backend}=useContext(Appcontext);
+
     const [signupinfo, setsignupinfo] = useState({
         name: '',
         party: '',
@@ -40,8 +43,7 @@ function Candidatesignup() {
         }
 
         try {
-                const response = await axios.post(
-                    'http://localhost:7000/candidate/candidatesignup',
+                const response = await axios.post(backend+'/candidate/candidatesignup',
                     { name, party, age }
                 );
 
@@ -75,7 +77,7 @@ function Candidatesignup() {
         const { adhaarno, password } = Adminlogin;
 
         try {
-            const response = await axios.post('http://localhost:7000/user/adminlogin', { adhaarno, password });
+            const response = await axios.post(backend+'/user/adminlogin', { adhaarno, password });
 
             if (response.status === 200) {
                 setloginSuccess(true);
@@ -142,7 +144,7 @@ function Candidatesignup() {
                          </h1>
                          <form className="space-y-4 md:space-y-6" onSubmit={handlesubmit2}>
                              <div>
-                                 <label htmlFor="adhaarno" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Aadhaar</label>
+                                 <label htmlFor="Adhaarno" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Aadhaar</label>
                                  <input
                                      onChange={handleAdminLoginChange}
                                      value={Adminlogin.adhaarno}

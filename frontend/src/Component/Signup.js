@@ -9,6 +9,8 @@ import { Appcontext } from '../Context/Context';
 
 function Signup() {
     const navigate=useNavigate();
+    const {backend}=useContext(Appcontext);
+
     const [signupinfo, setsignupinfo] = useState({
         name: '',
         email: '',
@@ -41,7 +43,7 @@ function Signup() {
         }
         
         try {
-            const response = await axios.post('http://localhost:7001/user/signup', {
+            const response = await axios.post(backend+'/user/signup', {
                 name, email, password, adhaarno, age, mobile, address,role
             });
             if (response.status === 200) {
@@ -105,7 +107,7 @@ function Signup() {
                             </div>
                             <div>
                                 <label htmlFor="address" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Role</label>
-                                <input onChange={handlechange} value={signupinfo.role} type="text" name="role" id="role" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="admin/voter" />
+                                <input onChange={handlechange} value={signupinfo.role} type="text" name="role" id="role" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Admin/Voter" />
                             </div>
                             <div>
                                 <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>

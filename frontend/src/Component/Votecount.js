@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { Appcontext } from '../Context/Context';
 
 function Votecount() {
     const [partycount, setpartycount] = useState([]);
     const [success, setsuccess] = useState(false);
-
+   const {backend}=useContext(Appcontext);
+      console.log(backend);
+      
     const handlechange = async () => {
         try {
-            const response = await axios.get('http://localhost:7001/candidate/vote/count');
+            const response = await axios.get(backend+'/candidate/vote/count');
             if (!response || !response.data) {
                 console.log('Internal server error');
                 return;

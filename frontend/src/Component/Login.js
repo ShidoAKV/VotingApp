@@ -1,14 +1,17 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState,useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import SuccessMessage from './SuccessMessage';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Appcontext } from '../Context/Context';
 
 function Login() {
      const navigate=useNavigate();
     const [logininfo, setlogininfo] = useState({ adhaarno: '', password: '' });
     const [loginSuccess, setLoginSuccess] = useState(false); 
+    const {backend}=useContext(Appcontext);
+
     localStorage.setItem('loginSuccess',loginSuccess);
 
     useEffect(() => {
@@ -29,7 +32,7 @@ function Login() {
         const { adhaarno, password } = logininfo;
 
         try {
-            const response = await axios.post('http://localhost:7001/user/login', { adhaarno, password });
+            const response = await axios.post(backend+'/user/login', { adhaarno, password });
 
             if (response.status === 200) {
                 console.log(response);

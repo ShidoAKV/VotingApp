@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import SignupSuccessMessage from './SignupSuccessMessage';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Login from './Login';
+import { Appcontext } from '../Context/Context';
 
 function Editcandidate() {
     const navigate = useNavigate();
+    const {backend}=useContext(Appcontext);
+
     const [signupinfo, setsignupinfo] = useState({
         name: '',
         party: '',
@@ -49,8 +52,7 @@ function Editcandidate() {
         }
 
         try {
-            const response = await axios.put(
-                `http://localhost:7001/candidate/editcandidate`,
+            const response = await axios.put(backend+`/candidate/editcandidate`,
                 { name, party, age ,previousparty},
                 {
                     headers: {
@@ -77,7 +79,7 @@ function Editcandidate() {
         const { adhaarno, password } = Adminlogin;
 
         try {
-            const response = await axios.post('http://localhost:7001/user/adminlogin', { adhaarno, password });
+            const response = await axios.post(backend+'/user/adminlogin', { adhaarno, password });
 
             if (response.status === 200) {
                 setloginSuccess(true);

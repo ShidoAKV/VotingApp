@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { useNavigate,Link } from 'react-router-dom';
+import { Appcontext } from '../Context/Context';
 
 function Removevote() {
     const navigate=useNavigate();
+    const {backend}=useContext(Appcontext);
+
     const [signupinfo, setsignupinfo] = useState({
         name: '',
         adhaarno: '',
@@ -30,7 +33,7 @@ function Removevote() {
         }
 
         try {
-            const response = await axios.post('http://localhost:7001/candidate/editvote', { name, adhaarno ,party });
+            const response = await axios.post(backend+'/candidate/editvote', { name, adhaarno ,party });
             if (response.status === 200) {
                 toast.success('Vote removed successfully');
                 setsignupinfo({
