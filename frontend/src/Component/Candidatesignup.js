@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Appcontext } from '../Context/Context';
 
 function Candidatesignup() {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const {backend}=useContext(Appcontext);
 
     const [signupinfo, setsignupinfo] = useState({
